@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CE Internship Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bl:#1a5fa8;--tl:#1a7f6e;--am:#9a6200;--gn:#2d7a3a;--k:#1a1816;--k2:#4a4744;--k3:#8a8784;--ru:#e2e0dc;--bg:#f5f4f1;--wh:#fff;}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--k);font-size:14px;}
+.hdr{background:var(--wh);border-bottom:1px solid var(--ru);padding:11px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.htitle{font-size:16px;font-weight:600;}
+.hsub{font-size:11px;color:var(--k3);margin-top:2px;}
+.btn{font-size:12px;padding:6px 14px;border-radius:8px;cursor:pointer;border:none;font-family:inherit;font-weight:500;}
+.btl{background:var(--tl);color:#fff;}
+.bbk{background:var(--wh);color:var(--k2);border:1px solid var(--ru);}
+.wrap{padding:18px 22px;max-width:1100px;margin:0 auto;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.filters select{font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid var(--ru);background:var(--wh);color:var(--k);}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
+.mc{background:var(--wh);border-radius:10px;padding:13px 15px;border:1px solid var(--ru);}
+.mcl{font-size:11px;color:var(--k3);margin-bottom:5px;}
+.mcv{font-size:24px;font-weight:600;line-height:1;}
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:13px;margin-bottom:13px;}
+.card{background:var(--wh);border-radius:12px;padding:15px 17px;border:1px solid var(--ru);margin-bottom:13px;}
+.ctitle{font-size:11px;font-weight:500;color:var(--k3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.blbl{font-size:11px;color:var(--k2);width:140px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.btrk{flex:1;height:7px;background:#f0ede8;border-radius:4px;overflow:hidden;}
+.bfil{height:100%;border-radius:4px;}
+.bval{font-size:11px;font-weight:600;width:30px;text-align:right;flex-shrink:0;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{font-size:10px;font-weight:500;color:var(--k3);text-align:left;padding:6px 10px;border-bottom:1px solid var(--ru);text-transform:uppercase;background:var(--bg);}
+td{padding:10px;border-bottom:1px solid var(--ru);color:var(--k2);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.rvc{background:var(--wh);border:1px solid var(--ru);border-radius:12px;padding:15px 17px;margin-bottom:11px;cursor:pointer;}
+.rvc:hover{border-color:#999;}
+.pill{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;background:#edf4fd;color:var(--bl);margin:2px;}
+.pg{background:#e6f4ea;color:var(--gn);}
+.pa{background:#fdf5e0;color:var(--am);}
+.pr{background:#f0ede8;color:var(--k3);}
+.badge{display:inline-block;font-size:11px;padding:3px 9px;border-radius:5px;font-weight:500;}
+.by{background:#e6f4ea;color:var(--gn);}
+.bm{background:#fdf5e0;color:var(--am);}
+.bn{background:#fdf1ed;color:#c94f2a;}
+.tag{font-size:12px;padding:4px 11px;border-radius:20px;background:#f0ede8;color:var(--k2);border:1px solid var(--ru);margin:2px;display:inline-block;}
+.tgg{background:#e6f4ea;color:var(--gn);border-color:#c0ddc8;}
+.tgb{background:#edf4fd;color:var(--bl);border-color:#bdd6f0;}
+.rrow{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.rlbl{font-size:12px;color:var(--k2);width:130px;flex-shrink:0;}
+.rval{font-size:12px;font-weight:600;width:28px;text-align:right;flex-shrink:0;}
+.qbox{background:#f8f7f4;border-radius:8px;padding:12px 15px;border-left:3px solid var(--bl);font-size:13px;line-height:1.7;}
+.empty{text-align:center;padding:30px;color:var(--k3);font-size:13px;}
+.spin{width:30px;height:30px;border:2.5px solid var(--ru);border-top-color:var(--tl);border-radius:50%;animation:sp .7s linear infinite;margin:0 auto 14px;}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:640px){.metrics{grid-template-columns:repeat(2,1fr)}.row2{grid-template-columns:1fr}.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div id="root"><div style="text-align:center;padding:80px 16px"><div class="spin"></div><p style="font-size:13px;color:var(--k3)">กำลังโหลด...</p></div></div>
+<script>
+var SID="1uB-1ZZ1Bt5ZJ-hEXoTfmk8grzZG9aicWNZKVB_-NXF0";
+var SHEET="https://docs.google.com/spreadsheets/d/"+SID;
+var SKILLS=["AutoCAD","Excel","ETABS","SAP2000","Civil3D","SketchUp","Reading Drawing","BOQ / Quantity Takeoff","Communication / Presentation","Problem Solving","Report Writing","ตรวจรับงาน / QC","ทดสอบวัสดุหน้างาน","Safety Inspection"];
+var COLORS=["#1a5fa8","#1a7f6e","#eb6834","#eda100","#4a3aa7","#e34948","#2d7a3a"];
+var all=[],fil=[],view="ov",selCo="",selIdx=-1,lastUp=null;
+var fOrg="all",fDisc="all",fLoc="all";
+
+function rc(v){return v>=4?"#2d7a3a":v>=3?"#9a6200":"#c94f2a";}
+function avg(arr,k){var v=arr.map(function(r){return r[k];}).filter(function(v){return v>0;});return v.length?v.reduce(function(a,b){return a+b;},0)/v.length:0;}
+function pctYes(arr){if(!arr.length)return"–";return Math.round(arr.filter(function(r){return r.ret&&r.ret.indexOf("Yes")>=0;}).length/arr.length*100)+"%";}
+function uniq(arr,k){var seen={},out=[];arr.forEach(function(r){if(r[k]&&!seen[r[k]]){seen[r[k]]=1;out.push(r[k]);}});return out.sort();}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function setH(h){document.getElementById("root").innerHTML=h;}
+
+function load(){
+  setH('<div style="text-align:center;padding:80px 16px"><div class="spin"></div><p style="font-size:13px;color:var(--k3)">กำลังโหลด...</p></div>');
+  var cb="_cb"+Date.now();
+  var url="https://docs.google.com/spreadsheets/d/"+SID+"/gviz/tq?tqx=out:json;responseHandler:"+cb;
+  var s=document.createElement("script");
+  s.src=url;
+  var done=false;
+  var t=setTimeout(function(){if(!done){done=true;showErr("timeout");}},10000);
+  s.onerror=function(){if(!done){done=true;clearTimeout(t);showErr("โหลดไม่ได้ — ตรวจสอบ Sheet เป็น public หรือยัง");}};
+  window[cb]=function(resp){
+    if(done)return;done=true;clearTimeout(t);
+    try{document.body.removeChild(s);}catch(e){}
+    delete window[cb];
+    var cols=resp.table.cols.map(function(c){return c.label||"";});
+    var rows=resp.table.rows.filter(function(r){return r.c;}).map(function(r){
+      var obj={};
+      cols.forEach(function(col,i){var cell=r.c[i];obj[col]=cell?(cell.v!==null&&cell.v!==undefined?String(cell.v):""):"";});
+      return obj;
+    });
+    all=parseRows(rows);
+    lastUp=new Date();
+    applyF();
+  };
+  document.body.appendChild(s);
+}
+
+function parseRows(rows){
+  return rows.filter(function(row){return row&&typeof row==="object";}).map(function(row){
+    var keys=Object.keys(row);
+    function fi(){var kws=Array.prototype.slice.call(arguments);return keys.filter(function(k){return kws.some(function(w){return k.indexOf(w)>=0;});});}
+    function s(){var ks=fi.apply(null,arguments);for(var i=0;i<ks.length;i++){var v=row[ks[i]];if(v!==undefined&&v!==null&&String(v).trim()!=="")return String(v).trim();}return"";}
+    function n(){var v=s.apply(null,arguments);return v?parseFloat(v)||0:0;}
+    function csv(){var v=s.apply(null,arguments);return v?v.split(",").map(function(x){return x.trim();}).filter(Boolean):[];}
+    var co1=s("ชื่อบริษัทที่ฝึก","ชื่อบริษัทที่ฝ");
+    var co2=s("ไม่มีชื่อ","หากไม่มี","ชื่อบริษัทหาก","ระบุชื่อบริษัท","ระบุที่ข้อ","โปรดระบุ","ข้อ 2 -","ข้อ2");
+    var isOther=(!co1||co1.trim()===""||co1.indexOf("อื่น")>=0||co1.indexOf("Other")>=0||co1.indexOf("other")>=0);
+    var co=isOther?co2:co1;
+    if(!co||co.length<2)return null;
+    return{
+      company:co,org:s("ประเภทองค์กร"),disc:s("สายงาน"),
+      mode:s("รูปแบบการทำ","รูปแบบการทํา"),loc:s("สถานที่"),
+      pay:n("เบี้ยเลี้ยง"),wel:csv("สวัสดิการ"),
+      app:csv("ช่องทาง"),app_link:s("ลิงก์","Link","link"),
+      tasks:csv("เนื้องาน","ลงมือทํา","ลงมือทำ","งานที่ทำบ่อย","งานที่ได้ลงมือ"),
+      auto:s("ทำงานด้วยตัวเอง","ได้ลองทำ","ได้ลองทํา"),
+      wh:s("เวลาการเข้างาน","กี่โมง","เลิกงาน"),
+      sk:csv("Skills","skills"),
+      r1:n("ตรงกับสายที่","ตรงกับที่สนใจ"),r2:n("Workload","ปริมาณงาน"),
+      r3:n("Mentor"),r4:n("สังคม","บรรยากาศ"),r5:n("ภาพรวม"),
+      ret:s("ย้อนเวลา","เลือกที่เดิม"),nps:n("แนะนำให้น้อง"),
+      msg:s("ความเห็น","เต็มระบบ","ฝากน้อง")
+    };
+  }).filter(Boolean);
+}
+
+function showErr(msg){
+  setH('<div style="text-align:center;padding:60px 20px">'
+    +'<div style="font-size:34px;margin-bottom:12px">⚠️</div>'
+    +'<div style="font-size:16px;font-weight:600;margin-bottom:8px">โหลดไม่ได้</div>'
+    +'<div style="font-size:12px;color:var(--k3);margin-bottom:20px;font-family:monospace;background:#f0ede8;padding:8px 14px;border-radius:6px;display:inline-block">'+esc(msg)+'</div><br>'
+    +'<button class="btn btl" onclick="load()">↺ ลองใหม่</button>'
+    +'</div>');
+}
+
+function applyF(){
+  fil=all.filter(function(r){
+    if(fOrg!=="all"&&r.org!==fOrg)return false;
+    if(fDisc!=="all"&&r.disc.indexOf(fDisc)<0)return false;
+    if(fLoc!=="all"&&r.loc.indexOf(fLoc)<0)return false;
+    return true;
+  });
+  if(view==="ov")renderOv();
+  else if(view==="list")renderList();
+  else renderDetail();
+}
+
+function goOv(){view="ov";selCo="";selIdx=-1;applyF();}
+function goList(co){selCo=co;view="list";applyF();}
+function goDetail(idx){selIdx=idx;view="detail";applyF();}
+
+function makeHdr(title,sub,backFn,backLabel){
+  var back=backFn?'<button class="btn bbk" onclick="'+backFn+'" style="margin-right:10px">← '+esc(backLabel)+'</button>':"";
+  return '<div class="hdr"><div style="display:flex;align-items:center">'+back+'<div><div class="htitle">'+esc(title)+'</div><div class="hsub">'+esc(sub)+'</div></div></div><button class="btn btl" onclick="load()">↺</button></div>';
+}
+
+function tags(arr,cls){return arr.map(function(t){return '<span class="tag '+cls+'">'+esc(t)+'</span>';}).join("");}
+
+function lpill(label,val,cls){
+  if(!val)return"";
+  return '<div style="display:inline-flex;align-items:center;gap:0;margin:2px">'
+    +'<span style="font-size:10px;color:var(--k3);background:#f0ede8;padding:2px 6px;border-radius:4px 0 0 4px;border:1px solid var(--ru);border-right:none">'+esc(label)+'</span>'
+    +'<span class="pill '+cls+'" style="border-radius:0 20px 20px 0;margin:0">'+esc(val)+'</span>'
+    +'</div>';
+}
+
+function renderOv(){
+  var orgs=uniq(all,"org"),discs=uniq(all,"disc"),locs=uniq(all,"loc");
+  var coNames=uniq(fil,"company");
+  var coData=coNames.map(function(c){
+    var rows=fil.filter(function(r){return r.company===c;});
+    return{name:c,rows:rows,rating:avg(rows,"r5"),nps:avg(rows,"nps"),org:rows[0]?rows[0].org:""};
+  }).filter(function(c){return c.rows.length>0;});
+  var top=coData.slice().sort(function(a,b){return b.rating-a.rating;}).slice(0,10);
+  var skData=SKILLS.map(function(sk){return{name:sk,c:fil.filter(function(r){return r.sk.indexOf(sk)>=0;}).length};}).filter(function(d){return d.c>0;}).sort(function(a,b){return b.c-a.c;}).slice(0,8);
+  var maxSk=skData.length?skData[0].c:1;
+  var orgData=orgs.map(function(o,i){return{name:o,c:fil.filter(function(r){return r.org===o;}).length,col:COLORS[i%COLORS.length]};}).filter(function(d){return d.c>0;});
+  var totOrg=orgData.reduce(function(a,b){return a+b.c;},0)||1;
+  var aOv=avg(fil,"r5"),aNps=avg(fil,"nps");
+
+  var fSel='<select onchange="fOrg=this.value;applyF()"><option value="all">ทุกประเภท</option>'
+    +orgs.map(function(o){return'<option value="'+esc(o)+'"'+(fOrg===o?" selected":"")+">"+esc(o)+"</option>";}).join("")+"</select>"
+    +'<select onchange="fDisc=this.value;applyF()"><option value="all">ทุกสายงาน</option>'
+    +discs.map(function(d){return'<option value="'+esc(d)+'"'+(fDisc===d?" selected":"")+">"+esc(d)+"</option>";}).join("")+"</select>"
+    +'<select onchange="fLoc=this.value;applyF()"><option value="all">ทุกสถานที่</option>'
+    +locs.map(function(l){return'<option value="'+esc(l)+'"'+(fLoc===l?" selected":"")+">"+esc(l)+"</option>";}).join("")+"</select>"
+    +(fOrg!=="all"||fDisc!=="all"||fLoc!=="all"?'<button class="btn" style="background:#fdf1ed;color:#c94f2a;border:1px solid #f5c8b8" onclick="fOrg=\'all\';fDisc=\'all\';fLoc=\'all\';applyF()">✕ ล้าง</button>':"");
+
+  var mets='<div class="mc"><div class="mcl">รีวิวทั้งหมด</div><div class="mcv" style="color:var(--bl)">'+fil.length+'</div></div>'
+    +'<div class="mc"><div class="mcl">Rating เฉลี่ย</div><div class="mcv" style="color:var(--tl)">'+(aOv>0?aOv.toFixed(1)+" / 5":"–")+'</div></div>'
+    +'<div class="mc"><div class="mcl">จะเลือกที่เดิม</div><div class="mcv" style="color:var(--gn)">'+pctYes(fil)+'</div></div>'
+    +'<div class="mc"><div class="mcl">NPS เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
+
+  var bars=top.length?top.map(function(c){
+    var nm=c.name.length>22?c.name.slice(0,20)+"…":c.name;
+    return'<div class="brow"><div class="blbl" title="'+esc(c.name)+'">'+esc(nm)+'</div><div class="btrk"><div class="bfil" style="width:'+(c.rating>0?c.rating/5*100:0)+'%;background:'+rc(c.rating)+'"></div></div><div class="bval" style="color:'+rc(c.rating)+'">'+(c.rating>0?c.rating.toFixed(1):"–")+'</div></div>';
+  }).join(""):'<div class="empty">ยังไม่มีข้อมูล</div>';
+
+  var orgRows=orgData.map(function(o){
+    return'<div class="brow"><div style="width:10px;height:10px;border-radius:50%;background:'+o.col+';flex-shrink:0;margin-right:6px"></div><div style="flex:1;font-size:12px">'+esc(o.name)+'</div><div style="font-size:12px;font-weight:500">'+Math.round(o.c/totOrg*100)+'%</div></div>';
+  }).join("") || '<div class="empty">–</div>';
+
+  var skBars=skData.map(function(s){
+    return'<div class="brow"><div class="blbl">'+esc(s.name)+'</div><div class="btrk"><div class="bfil" style="width:'+Math.round(s.c/maxSk*100)+'%;background:var(--bl)"></div></div><div class="bval" style="color:var(--bl)">'+s.c+'</div></div>';
+  }).join("");
+
+  var coTbl=coData.length
+    ?'<div style="overflow-x:auto"><table><thead><tr><th>บริษัท</th><th>ประเภท</th><th>Rating</th><th>NPS</th><th>จะเลือกที่เดิม</th><th>รีวิว</th></tr></thead><tbody>'
+      +coData.map(function(c){
+        var y=c.rows.filter(function(r){return r.ret&&r.ret.indexOf("Yes")>=0;}).length;
+        var ma=c.rows.filter(function(r){return r.ret&&r.ret.indexOf("Maybe")>=0;}).length;
+        var bc=y>c.rows.length/2?"by":ma>c.rows.length/2?"bm":"bn";
+        var coEsc=esc(c.name).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+        return'<tr style="cursor:pointer" onclick="goList(\''+coEsc+'\')" onmouseover="this.style.background=\'#f8f7f4\'" onmouseout="this.style.background=\'\'">'
+          +'<td style="font-weight:500;color:var(--bl)">'+esc(c.name)+'</td>'
+          +'<td style="font-size:11px">'+esc(c.org.split(",")[0]||"–")+'</td>'
+          +'<td><span style="font-weight:600;color:'+rc(c.rating)+'">'+(c.rating>0?c.rating.toFixed(1):"–")+'</span></td>'
+          +'<td>'+(c.nps>0?c.nps.toFixed(1):"–")+'</td>'
+          +'<td><span class="badge '+bc+'">'+pctYes(c.rows)+' Yes</span></td>'
+          +'<td style="color:var(--k3)">'+c.rows.length+' →</td></tr>';
+      }).join("")+'</tbody></table></div>'
+    :'<div class="empty">ยังไม่มีข้อมูล</div>';
+
+  setH(makeHdr("CE Internship Dashboard",fil.length+" รีวิว · "+(lastUp?lastUp.toLocaleTimeString("th"):"–"),"","")
+    +'<div class="wrap"><div class="filters">'+fSel+'</div>'
+    +'<div class="metrics">'+mets+'</div>'
+    +'<div class="row2"><div class="card"><div class="ctitle">Rating รายบริษัท</div>'+bars+'</div>'
+    +'<div class="card"><div class="ctitle">ประเภทองค์กร</div>'+orgRows+'</div></div>'
+    +(skData.length?'<div class="card"><div class="ctitle">Skills ที่ใช้จริง</div>'+skBars+'</div>':"")
+    +'<div class="card"><div class="ctitle">รายชื่อบริษัท — คลิกเพื่อดูรีวิว</div>'+coTbl+'</div>'
+    +'<div style="text-align:center;padding:16px 0 4px;font-size:12px;color:var(--k3)">อัปเดตอัตโนมัติทุก 5 นาที · <a href="'+SHEET+'" target="_blank" style="color:var(--bl)">📊 ดู Raw Data</a></div>'
+    +'</div>');
+}
+
+function renderList(){
+  var coRows=fil.filter(function(r){return r.company===selCo;});
+  if(!coRows.length){goOv();return;}
+  var aOv=avg(coRows,"r5"),aNps=avg(coRows,"nps");
+  var mets='<div class="mc"><div class="mcl">รีวิว</div><div class="mcv" style="color:var(--bl)">'+coRows.length+'</div></div>'
+    +'<div class="mc"><div class="mcl">Rating เฉลี่ย</div><div class="mcv" style="color:var(--tl)">'+(aOv>0?aOv.toFixed(1)+" / 5":"–")+'</div></div>'
+    +'<div class="mc"><div class="mcl">จะเลือกที่เดิม</div><div class="mcv" style="color:var(--gn)">'+pctYes(coRows)+'</div></div>'
+    +'<div class="mc"><div class="mcl">NPS เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
+  var cards=coRows.map(function(r){
+    var idx=fil.indexOf(r);
+    var retBc=r.ret&&r.ret.indexOf("Yes")>=0?"by":r.ret&&r.ret.indexOf("Maybe")>=0?"bm":"bn";
+    var retLbl=r.ret&&r.ret.indexOf("Yes")>=0?"✓ จะเลือกที่เดิม":r.ret&&r.ret.indexOf("Maybe")>=0?"~ อาจจะ":"✕ ไม่เลือก";
+    var pills=(r.pay>0?'<span class="pill pg">฿'+r.pay+'/วัน</span>':"")
+      +(r.wh?'<span class="pill pa">'+esc(r.wh)+'</span>':"")
+      +(r.mode?'<span class="pill pr">'+esc(r.mode)+'</span>':"")
+      +'<span class="badge '+retBc+'" style="margin:2px">'+esc(retLbl)+'</span>';
+    var tl=r.tasks&&r.tasks.length?'<div style="margin-top:7px;font-size:11px;color:var(--k3)">งานที่ทำ: <span style="color:var(--k2)">'+esc(r.tasks.slice(0,3).join(", "))+(r.tasks.length>3?" +อีก "+(r.tasks.length-3)+" อย่าง":"")+'</span></div>':"";
+    var sl=r.sk&&r.sk.length?'<div style="margin-top:3px;font-size:11px;color:var(--k3)">Skills: <span style="color:var(--k2)">'+esc(r.sk.slice(0,3).join(", "))+(r.sk.length>3?" +อีก "+(r.sk.length-3):"")+'</span></div>':"";
+    var ml=r.msg?'<div style="margin-top:8px;font-size:12px;color:var(--k2);font-style:italic;line-height:1.5">"'+esc(r.msg.slice(0,120))+(r.msg.length>120?"…":"")+'\"</div>':"";
+    return'<div class="rvc" onclick="goDetail('+idx+')">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
+      +'<div><div style="font-size:13px;font-weight:500;margin-bottom:3px">'+esc(r.disc||r.org||"รีวิว")+'</div>'
+      +'<div style="font-size:11px;color:var(--k3)">'+esc([r.org,r.loc].filter(Boolean).join(" · "))+'</div></div>'
+      +'<div style="text-align:right;flex-shrink:0;margin-left:12px"><div style="font-size:22px;font-weight:600;color:'+rc(r.r5)+'">'+(r.r5>0?r.r5.toFixed(1):"–")+'</div><div style="font-size:10px;color:var(--k3)">/ 5</div></div></div>'
+      +'<div>'+pills+'</div>'+tl+sl+ml
+      +'<div style="margin-top:8px;font-size:11px;color:var(--bl)">ดูรายละเอียด →</div></div>';
+  }).join("");
+  setH(makeHdr(selCo,"รายการรีวิวทั้งหมด","goOv()","ภาพรวม")
+    +'<div class="wrap"><div class="metrics">'+mets+'</div>'
+    +'<div style="font-size:12px;color:var(--k3);margin-bottom:12px">คลิกที่รีวิวเพื่อดูรายละเอียด</div>'+cards+'</div>');
+}
+
+function renderDetail(){
+  var r=fil[selIdx];
+  if(!r){goOv();return;}
+  var retBc=r.ret&&r.ret.indexOf("Yes")>=0?"by":r.ret&&r.ret.indexOf("Maybe")>=0?"bm":"bn";
+  var rats=[["งานตรงกับที่สนใจ","r1"],["Workload เหมาะสม","r2"],["Mentor / พี่สอนงาน","r3"],["สังคมในองค์กร","r4"],["ภาพรวม","r5"]];
+  var pillsTop=lpill("ประเภทองค์กร",r.org,"")
+    +lpill("สายงาน",r.disc,"")
+    +lpill("สถานที่",r.loc,"")
+    +lpill("รูปแบบ",r.mode,"pr")
+    +(r.pay>0?lpill("เบี้ยเลี้ยง","฿"+r.pay+"/วัน","pg"):"")
+    +(r.wh?lpill("เวลางาน",r.wh,"pa"):"");
+  var ratBars=rats.map(function(p){
+    var v=r[p[1]];
+    return'<div class="rrow"><div class="rlbl">'+esc(p[0])+'</div><div class="btrk"><div class="bfil" style="width:'+(v>0?v/5*100:0)+'%;background:'+rc(v)+'"></div></div><div class="rval" style="color:'+rc(v)+'">'+(v>0?v.toFixed(1):"–")+'</div></div>';
+  }).join("");
+  var retBox='<span class="badge '+retBc+'" style="font-size:13px;padding:5px 12px">'+esc(r.ret||"–")+'</span>'
+    +(r.nps>0?'<div style="font-size:12px;color:var(--k3);margin-top:8px">NPS: <span style="font-weight:600;color:'+rc(r.nps)+'">'+r.nps.toFixed(1)+' / 5</span></div>':"");
+  var tasksBlock=r.tasks&&r.tasks.length
+    ?'<div class="card"><div class="ctitle">ลักษณะงานที่ได้ทำ</div>'+tags(r.tasks,"")
+      +(r.auto?'<div style="margin-top:10px;font-size:12px;color:var(--k2)"><span style="color:var(--k3)">ได้ทำงานเอง: </span>'+esc(r.auto)+'</div>':"")+'</div>':"";
+  var skBlock=r.sk&&r.sk.length?'<div class="card"><div class="ctitle">Skills ที่ใช้จริง</div>'+tags(r.sk,"tgg")+'</div>':"";
+  var welBlock=r.wel&&r.wel.length?'<div class="card"><div class="ctitle">สวัสดิการที่ได้รับ</div>'+tags(r.wel,"tgg")+'</div>':"";
+  var appBlock="";
+  if(r.app&&r.app.length){
+    appBlock='<div class="card"><div class="ctitle">ช่องทางการสมัคร</div>'+tags(r.app,"tgb");
+    if(r.app_link&&r.app_link!=="-"&&r.app_link.length>1){
+      appBlock+='<div style="margin-top:10px"><a href="'+esc(r.app_link)+'" target="_blank" style="font-size:12px;color:var(--bl);word-break:break-all">🔗 '+esc(r.app_link)+'</a></div>';
+    }
+    appBlock+='</div>';
+  }
+  var msgBlock=r.msg?'<div class="card"><div class="ctitle">ความเห็นถึงน้องที่จะมาฝึก</div><div class="qbox">'+esc(r.msg)+'</div></div>':"";
+  var coEsc=selCo.replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+  setH(makeHdr(r.company,"รีวิวละเอียด","goList('"+coEsc+"')","รายการรีวิว")
+    +'<div class="wrap"><div style="margin-bottom:14px">'+pillsTop+'</div>'
+    +'<div class="row2">'
+    +'<div><div class="card"><div class="ctitle">Rating แต่ละด้าน</div>'+ratBars+'</div>'+tasksBlock+skBlock+'</div>'
+    +'<div><div class="card"><div class="ctitle">จะเลือกที่เดิมไหม</div>'+retBox+'</div>'+welBlock+appBlock+'</div>'
+    +'</div>'+msgBlock+'</div>');
+}
+
+load();
+setInterval(load,300000);
+</script>
+</body>
+</html>
