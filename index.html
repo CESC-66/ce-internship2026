@@ -194,7 +194,7 @@ function renderOv(){
   var mets='<div class="mc"><div class="mcl">รีวิวทั้งหมด</div><div class="mcv" style="color:var(--bl)">'+fil.length+'</div></div>'
     +'<div class="mc"><div class="mcl">Rating เฉลี่ย</div><div class="mcv" style="color:var(--tl)">'+(aOv>0?aOv.toFixed(1)+" / 5":"–")+'</div></div>'
     +'<div class="mc"><div class="mcl">จะเลือกที่เดิม</div><div class="mcv" style="color:var(--gn)">'+pctYes(fil)+'</div></div>'
-    +'<div class="mc"><div class="mcl">NPS เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
+    +'<div class="mc"><div class="mcl">แนะนำให้มาฝึก เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
 
   var bars=top.length?top.map(function(c){
     var nm=c.name.length>22?c.name.slice(0,20)+"…":c.name;
@@ -210,7 +210,7 @@ function renderOv(){
   }).join("");
 
   var coTbl=coData.length
-    ?'<div style="overflow-x:auto"><table><thead><tr><th>บริษัท</th><th>ประเภท</th><th>Rating</th><th>NPS</th><th>จะเลือกที่เดิม</th><th>รีวิว</th></tr></thead><tbody>'
+    ?'<div style="overflow-x:auto"><table><thead><tr><th>บริษัท</th><th>ประเภท</th><th>Rating</th><th>แนะนำให้มาฝึก</th><th>จะเลือกที่เดิม</th><th>รีวิว</th></tr></thead><tbody>'
       +coData.map(function(c){
         var y=c.rows.filter(function(r){return r.ret&&r.ret.indexOf("Yes")>=0;}).length;
         var ma=c.rows.filter(function(r){return r.ret&&r.ret.indexOf("Maybe")>=0;}).length;
@@ -244,7 +244,7 @@ function renderList(){
   var mets='<div class="mc"><div class="mcl">รีวิว</div><div class="mcv" style="color:var(--bl)">'+coRows.length+'</div></div>'
     +'<div class="mc"><div class="mcl">Rating เฉลี่ย</div><div class="mcv" style="color:var(--tl)">'+(aOv>0?aOv.toFixed(1)+" / 5":"–")+'</div></div>'
     +'<div class="mc"><div class="mcl">จะเลือกที่เดิม</div><div class="mcv" style="color:var(--gn)">'+pctYes(coRows)+'</div></div>'
-    +'<div class="mc"><div class="mcl">NPS เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
+    +'<div class="mc"><div class="mcl">แนะนำให้มาฝึก เฉลี่ย</div><div class="mcv" style="color:var(--am)">'+(aNps>0?aNps.toFixed(1)+" / 5":"–")+'</div></div>';
   var cards=coRows.map(function(r){
     var idx=fil.indexOf(r);
     var retBc=r.ret&&r.ret.indexOf("Yes")>=0?"by":r.ret&&r.ret.indexOf("Maybe")>=0?"bm":"bn";
@@ -285,7 +285,7 @@ function renderDetail(){
     return'<div class="rrow"><div class="rlbl">'+esc(p[0])+'</div><div class="btrk"><div class="bfil" style="width:'+(v>0?v/5*100:0)+'%;background:'+rc(v)+'"></div></div><div class="rval" style="color:'+rc(v)+'">'+(v>0?v.toFixed(1):"–")+'</div></div>';
   }).join("");
   var retBox='<span class="badge '+retBc+'" style="font-size:13px;padding:5px 12px">'+esc(r.ret||"–")+'</span>'
-    +(r.nps>0?'<div style="font-size:12px;color:var(--k3);margin-top:8px">NPS: <span style="font-weight:600;color:'+rc(r.nps)+'">'+r.nps.toFixed(1)+' / 5</span></div>':"");
+    +(r.nps>0?'<div style="font-size:12px;color:var(--k3);margin-top:8px">แนะนำให้มาฝึก: <span style="font-weight:600;color:'+rc(r.nps)+'">'+r.nps.toFixed(1)+' / 5</span></div>':"");
   var tasksBlock=r.tasks&&r.tasks.length
     ?'<div class="card"><div class="ctitle">ลักษณะงานที่ได้ทำ</div>'+tags(r.tasks,"")
       +(r.auto?'<div style="margin-top:10px;font-size:12px;color:var(--k2)"><span style="color:var(--k3)">ได้ทำงานเอง: </span>'+esc(r.auto)+'</div>':"")+'</div>':"";
